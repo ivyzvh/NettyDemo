@@ -11,10 +11,10 @@ import io.netty.handler.codec.string.StringEncoder;
 public class HelloServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
-    protected void initChannel(SocketChannel ch) throws Exception {
-        ChannelPipeline pipeline = ch.pipeline();
+    protected void initChannel(SocketChannel channel) throws Exception {
+        ChannelPipeline pipeline = channel.pipeline();
 
-        // 以("\n")为结尾分割的 解码器
+        // 以("\n")为结尾分割的 解码器（参数一8192：最大帧长度，参数二：定义分隔符）
         pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 
         // 字符串解码 和 编码
