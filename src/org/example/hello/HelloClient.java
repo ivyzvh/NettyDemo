@@ -25,11 +25,11 @@ public class HelloClient {
         try {
             Bootstrap b = new Bootstrap();
             b.group(group)
-            .channel(NioSocketChannel.class)
-            .handler(new HelloClientInitializer());
+             .channel(NioSocketChannel.class)
+             .handler(new HelloClientInitializer());
 
             // 连接服务端
-            Channel ch = b.connect(host, port).sync().channel();
+            Channel channel = b.connect(host, port).sync().channel();
             
             // 控制台输入
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -43,7 +43,7 @@ public class HelloClient {
                  * 之所以用\r\n结尾 是因为我们在handler中添加了 DelimiterBasedFrameDecoder 帧解码。
                  * 这个解码器是一个根据\n符号位分隔符的解码器。所以每条消息的最后必须加上\n否则无法识别和解码
                  * */
-                ch.writeAndFlush(line + "\r\n");
+                channel.writeAndFlush(line + "\r\n");
             }
         } finally {
             // The connection is closed automatically on shutdown.
