@@ -18,18 +18,18 @@ public class HelloServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup);
-            b.channel(NioServerSocketChannel.class);
-            b.childHandler(new HelloServerInitializer());
+            ServerBootstrap serverBoot = new ServerBootstrap();
+            serverBoot.group(bossGroup, workerGroup);
+            serverBoot.channel(NioServerSocketChannel.class);
+            serverBoot.childHandler(new HelloServerInitializer()); // 关键
 
             // 服务器绑定端口监听
-            ChannelFuture f = b.bind(portNumber).sync();
+            ChannelFuture future = serverBoot.bind(portNumber).sync();
             // 监听服务器关闭监听
-            f.channel().closeFuture().sync();
+            future.channel().closeFuture().sync();
 
             // 可以简写为
-            /* b.bind(portNumber).sync().channel().closeFuture().sync(); */
+            /* serverBoot.bind(portNumber).sync().channel().closeFuture().sync(); */
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();

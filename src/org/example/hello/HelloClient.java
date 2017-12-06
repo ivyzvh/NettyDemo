@@ -12,8 +12,8 @@ import java.io.InputStreamReader;
 
 public class HelloClient {
     
-    public static String host = "127.0.0.1";
-    public static int port = 7878;
+    public static String host = "127.0.0.1"; // 变量
+    public static int port = 7878; // 变量
 
     /**
      * @param args
@@ -23,13 +23,13 @@ public class HelloClient {
     public static void main(String[] args) throws InterruptedException, IOException {
         EventLoopGroup group = new NioEventLoopGroup();
         try {
-            Bootstrap b = new Bootstrap();
-            b.group(group)
-             .channel(NioSocketChannel.class)
-             .handler(new HelloClientInitializer());
+            Bootstrap bootstrap = new Bootstrap();
+            bootstrap.group(group)
+                     .channel(NioSocketChannel.class)
+                     .handler(new HelloClientInitializer());  // 变量
 
             // 连接服务端
-            Channel channel = b.connect(host, port).sync().channel();
+            Channel channel = bootstrap.connect(host, port).sync().channel();
             
             // 控制台输入
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

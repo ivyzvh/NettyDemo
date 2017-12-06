@@ -5,10 +5,12 @@ import io.netty.channel.SimpleChannelInboundHandler;
 
 public class HelloClientHandler extends SimpleChannelInboundHandler<String> {
 
+	/**
+	 * 服务器返回信息
+	 */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        
-        System.out.println("Server say : " + msg);
+        System.out.println("Server say: " + msg);
     }
     
     @Override
