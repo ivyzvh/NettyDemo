@@ -18,10 +18,10 @@ public class HelloServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 
         // ×Ö·û´®½âÂë ºÍ ±àÂë
-        pipeline.addLast("decoder", new StringDecoder()); // ½âÂëÆ÷
-        pipeline.addLast("encoder", new StringEncoder()); // ½âÂëÆ÷
+        pipeline.addLast("decoder", new StringDecoder()); // ×Ö·û´®½âÂëÆ÷
+        pipeline.addLast("encoder", new StringEncoder()); // ×Ö·û´®±àÂëÆ÷
 
         // ×Ô¼ºµÄÂß¼­Handler
-        pipeline.addLast("handler", new HelloServerHandler());
+        pipeline.addLast("handler", new HelloServerHandler()); // ´úÂë´¦ÀíÂß¼­
     }
 }
