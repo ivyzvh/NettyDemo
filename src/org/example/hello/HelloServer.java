@@ -25,7 +25,7 @@ public class HelloServer {
             serverBoot.group(bossGroup, workerGroup); // 绑定两个线程组
             serverBoot.channel(NioServerSocketChannel.class); // 指定NIO的模式
             serverBoot.childHandler(new HelloServerInitializer()); // 配置具体的数据处理方式,HelloServerInitializer：用于实际处理数据的类
-
+         
             // 服务器绑定端口监听
             ChannelFuture future = serverBoot.bind(portNumber).sync();
             // 监听服务器关闭监听(为了防止线程停止)。

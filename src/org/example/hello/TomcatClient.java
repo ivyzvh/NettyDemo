@@ -7,6 +7,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.io.IOException;
+import java.util.List;
+
+import net.sf.json.JSONObject;
+
+import com.vv.db.DB;
+import com.vv.model.SystemAccount;
 
 public class TomcatClient {
     
@@ -28,6 +34,11 @@ public class TomcatClient {
 
             // 连接服务端
             Channel channel = bootstrap.connect("127.0.0.1", 7878).sync().channel();  
+            
+            List<SystemAccount> list = DB.getSystemAccountList();
+            for (SystemAccount o : list) {
+            	channel.writeAndFlush(JSONObject.fromObject(o)+"\r\n");
+            }
             
             channel.writeAndFlush("99999\r\n");
             channel.writeAndFlush("0000\r\n");

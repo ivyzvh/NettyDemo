@@ -2,8 +2,10 @@ package org.example.hello;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.io.BufferedReader;
@@ -27,7 +29,7 @@ public class HelloClient {
             bootstrap.group(group)
                      .channel(NioSocketChannel.class)
                      .handler(new HelloClientInitializer());  // 变量
-
+            
             // 连接服务端
             Channel channel = bootstrap.connect(host, port).sync().channel();
             
