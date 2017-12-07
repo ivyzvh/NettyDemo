@@ -15,7 +15,7 @@ public class HelloClientHandler extends SimpleChannelInboundHandler<String> {
     
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("Client active ");
+        System.out.println("Client active "); // 保持连接
         super.channelActive(ctx);
     }
 
