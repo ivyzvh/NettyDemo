@@ -17,7 +17,7 @@ public class HelloServerInitializer extends ChannelInitializer<SocketChannel> {
         // 以("\n")为结尾分割的 解码器（参数一8192：最大帧长度，参数二：定义分隔符）
         pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 
-        // 字符串解码 和 编码
+        // 字符串解码和编码
         pipeline.addLast("decoder", new StringDecoder()); // 字符串解码器
         pipeline.addLast("encoder", new StringEncoder()); // 字符串编码器
 
