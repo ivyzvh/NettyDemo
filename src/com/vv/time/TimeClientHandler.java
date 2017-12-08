@@ -36,7 +36,7 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
 		byte[] req = new byte[buf.readableBytes()];
 		buf.readBytes(req);
 		String body = new String(req, "UTF-8");
-		System.out.println("时间服务器返回信息 : " + body);
+		System.out.println("服务器应答信息 : " + body);
 	}
 
 	@Override

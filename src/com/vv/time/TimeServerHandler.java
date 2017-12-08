@@ -26,8 +26,8 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
 		//		new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
 		
 		String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
-		   new Date(System.currentTimeMillis())
-		);
+								new Date(System.currentTimeMillis())
+							 );
 	    
 		ByteBuf resp = Unpooled.copiedBuffer(currentTime.getBytes());
 		ctx.write(resp);
