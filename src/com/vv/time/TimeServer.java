@@ -17,6 +17,7 @@ import org.example.hello.HelloClientHandler;
 public class TimeServer {
 	
 	public void bind(int port) throws Exception {
+		System.out.println("[时间服务器]启动...");
 		EventLoopGroup bossGroup = new NioEventLoopGroup(); // 用于处理服务器端接收客户端连接
 		EventLoopGroup workerGroup = new NioEventLoopGroup(); // 进行网络通信（读写）
 		try {
@@ -24,8 +25,8 @@ public class TimeServer {
 			serverBoot.group(bossGroup, workerGroup) // 绑定两个线程组
 			          .channel(NioServerSocketChannel.class) // 指定NIO的模式
 			          .option(ChannelOption.SO_BACKLOG, 1024)
-			          .childHandler(new TimeServerHandler());
-			          
+			          .childHandler(new ChildChannelHandler());
+			
 			// 服务器绑定端口监听
 			ChannelFuture future = serverBoot.bind(port).sync();
 			// 监听服务器关闭监听(为了防止线程停止)。
@@ -40,7 +41,8 @@ public class TimeServer {
 	private class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
 		@Override
 		protected void initChannel(SocketChannel arg0) throws Exception {
-			arg0.pipeline().addLast(new HelloClientHandler());
+			System.out.println("[时间服务器]" + this.getClass().getSimpleName() + ".initChannel()");
+			arg0.pipeline().addLast(new TimeServerHandler());
 		}
 	}
 	
