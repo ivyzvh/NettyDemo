@@ -11,6 +11,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import org.example.hello.HelloClientHandler;
 
+/**
+ * Netty 5
+ */
 public class TimeServer {
 	
 	public void bind(int port) throws Exception {

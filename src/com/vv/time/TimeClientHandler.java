@@ -7,6 +7,9 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.logging.Logger;
 
+/**
+ * Netty 5
+ */
 public class TimeClientHandler extends ChannelHandlerAdapter {
 	private static final Logger logger = Logger.getLogger(TimeClientHandler.class.getName());
 

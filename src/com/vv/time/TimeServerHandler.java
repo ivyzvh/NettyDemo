@@ -7,6 +7,9 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.util.Date;
 
+/**
+ * Netty 5
+ */
 public class TimeServerHandler extends ChannelHandlerAdapter {
 
 	@Override
