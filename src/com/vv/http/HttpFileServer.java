@@ -12,7 +12,9 @@ import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
-
+/**
+ * Netty 5（代码不全，未验证）
+ */
 public class HttpFileServer {
 	private static final String DEFAULT_URL = "/src/com/phei/netty";
 	
@@ -27,10 +29,10 @@ public class HttpFileServer {
 			 .childHandler(new ChannelInitializer<SocketChannel>(){
 				 @Override
 				 protected void initChannel(SocketChannel ch) throws Exception {
-					 ch.pipeline().addLast("http-decoder", new HttpRequestDecoder());
-					 ch.pipeline().addLast("http-aggregator", new HttpObjectAggregator(65536));
-					 ch.pipeline().addLast("http-encoder", new HttpResponseEncoder());
-					 ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
+					 ch.pipeline().addLast("http-decoder",      new HttpRequestDecoder());
+					 ch.pipeline().addLast("http-aggregator",   new HttpObjectAggregator(65536));
+					 ch.pipeline().addLast("http-encoder",      new HttpResponseEncoder());
+					 ch.pipeline().addLast("http-chunked",      new ChunkedWriteHandler());
 					 ch.pipeline().addLast("fileServerHandler", new HttpFileServerHandler(url));
 				 }
 			 });

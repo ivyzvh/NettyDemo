@@ -14,21 +14,28 @@ import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-
+import java.util.regex.Pattern;
+/**
+ * Netty 5（代码不全，未验证）
+ */
 public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 		@Override 
 		public void messageReceived(ChannelHandlerContext ctx, FullHttpRequest request) 
 				throws Exception {
+			
 			if (!request.getDecoderResult().isSuccess()) {
 				sendError(ctx, BAD_REQUEST);
 				return;
 			}
+			
 			if (request.getMethod() != GET) {
 				sendError(ctx, METHOD_NOT_ALLOWED);
 				return;
 			}
+			
 			final String uri = request.getUri();
 			final String path = sanitizeUri(uri);
+			
 			if (path == null) {
 				sendError(ctx, FORBIDDEN);
 				return;
@@ -40,12 +47,12 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 				return;
 			}
 			
-			//此处代码省略 
-			
+			//此处代码省略
 			if (!file.isFile()) {
 				sendEror(ctx, FORBIDDEN);
 				return;
 			}
+			
 			RandomAccessFile randomAccessFile = null;
 			try {
 				randomAccessFile = new RandomAccessFile(file, "r"); // 以只读方式打开文件
@@ -62,9 +69,11 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 				response.headers.set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
 			}
 			ctx.write(response);
-			ChannelFuture sendFileFuture;
-			sendFileFuture = ctx.write(new ChunkedFile(randomAccessFile, 0, fileLength, 8192)),
-					ctx.newProgressivePromise());
+			ChannelFuture sendFileFuture = ctx.write(
+				new ChunkedFile(randomAccessFile, 0, fileLength, 8192),
+				ctx.newProgressivePromise()
+			);
+			
 			sendFileFuture.addListener(new ChannelProgressiveFutureListenter() {
 				// 此处代码省略
 				privte String sanitizeUri(String uri) {
@@ -89,6 +98,9 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 					return System.getProperty("user.dir") + File.separator + uri;
 				}
 				
+				private static final Pattern ALLOWED_FILE_NAME = 
+						Pattern.compile("[A-Za-z0-9][-_A-Za-z0-9\\.]*");
+				
 				private static void sendListing(ChannelHandlerContext ctx, Filedir) {
 					FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
 					response.headers().set(CONTENT_TYPE, "text/html;charset=UTF-8");
@@ -108,17 +120,7 @@ public class HttpFileServerHandler extends SimpleChannelInboundHandler<FullHttpR
 					ctx.writeAndFlush(response).addListener(ChannelFutureListener.CLOSE);
 				}
 				// 代码省略
-					
-					
-					
-				}
-			});
-			
-			
+			}			
+			//});
 		}
-	}
-	
-	
-	
-	
 }
