@@ -25,22 +25,23 @@ public class HttpServer {
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
+            ServerBootstrap bootstrap = new ServerBootstrap();
+            bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+                     .childHandler(new ChannelInitializer<SocketChannel>() {
                                 @Override
-                                public void initChannel(SocketChannel ch) throws Exception {
+                                public void initChannel(SocketChannel channel) throws Exception {
                                     // server端发送的是httpResponse，所以要使用HttpResponseEncoder进行编码
-                                    ch.pipeline().addLast(new HttpResponseEncoder());
+                                    channel.pipeline().addLast(new HttpResponseEncoder());
                                     // server端接收到的是httpRequest，所以要使用HttpRequestDecoder进行解码
-                                    ch.pipeline().addLast(new HttpRequestDecoder());
-                                    ch.pipeline().addLast(new HttpServerInboundHandler());
+                                    channel.pipeline().addLast(new HttpRequestDecoder());
+                                    channel.pipeline().addLast(new HttpServerInboundHandler());
                                 }
-                            }).option(ChannelOption.SO_BACKLOG, 128) 
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                     })
+                     .option(ChannelOption.SO_BACKLOG, 128) 
+                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
-            ChannelFuture f = b.bind(port).sync();
-            f.channel().closeFuture().sync();
+            ChannelFuture future = bootstrap.bind(port).sync();
+            future.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
