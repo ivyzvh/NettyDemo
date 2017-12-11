@@ -45,13 +45,13 @@ public class HttpClient {
             ChannelFuture future = bootstrap.connect(host, port).sync();
 
             URI uri = new URI("http://127.0.0.1:8844");
-            String msg = "Are you ok?";
+            String msg = "Are you ok?你好！";
             DefaultFullHttpRequest request = new DefaultFullHttpRequest(
             		HttpVersion.HTTP_1_1, 
             		HttpMethod.GET,
                     uri.toASCIIString(), 
                     Unpooled.wrappedBuffer(msg.getBytes("UTF-8"))
-                    );
+                );
 
             // 构建http请求
             request.headers().set(HttpHeaders.Names.HOST, host);
