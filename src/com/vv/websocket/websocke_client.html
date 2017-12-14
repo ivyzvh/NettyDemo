@@ -15,7 +15,7 @@
     <input type="button" value="Send" onclick="send(this.form.message.value)"/>
     <hr color="blue"/>
     <h3>Response Message From WebSocket Server</h3>
-    <textarea id="responseText" style="width:500px;height:300px;"></textarea>
+    <textarea id="responseText" style="width:600px;height:300px;"></textarea>
 </form>
 </body>
 </html>
@@ -34,16 +34,16 @@
         };
         socket.onopen = function (event) {
             var ta = document.getElementById('responseText');
-            //ta.value = "´ò¿ªWebSocket·þÎñÕý³££¬ä¯ÀÀÆ÷Ö§³ÖWebSocket!";
+            //ta.value = "ï¿½ï¿½WebSocketï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½WebSocket!";
 			ta.value = "Open WebSocket service successfully, the browser support WebSocket!";
         };
         socket.onclose = function (event) {
             var ta = document.getElementById('responseText');
-            //ta.value = "WebSocket ¹Ø±Õ!";
+            //ta.value = "WebSocket ï¿½Ø±ï¿½!";
 			ta.value += "\n" + "WebSocket Closed!";
         };
     } else {
-        //alert("±§Ç¸£¬ÄúµÄä¯ÀÀÆ÷²»Ö§³ÖWebSocketÐ­Òé!");
+        //alert("ï¿½ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½WebSocketÐ­ï¿½ï¿½!");
 		alert("Sorry, the browser doesn't support WebSocket.");
     }
 
@@ -54,7 +54,7 @@
         if (socket.readyState == WebSocket.OPEN) {
             socket.send(message);
         } else {
-            //alert("WebSocketÁ¬½ÓÃ»ÓÐ½¨Á¢³É¹¦!");
+            //alert("WebSocketï¿½ï¿½ï¿½ï¿½Ã»ï¿½Ð½ï¿½ï¿½ï¿½ï¿½É¹ï¿½!");
 			alert("WebSocket connection failed.");
         }
     }

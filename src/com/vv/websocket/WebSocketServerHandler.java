@@ -1,22 +1,26 @@
 package com.vv.websocket;
+import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpUtil;
-import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PingWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.PongWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import io.netty.util.CharsetUtil;
 
-import java.util.logging.Level;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Logger;
-
-import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * @author lilinfeng
@@ -30,6 +34,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Object msg)throws Exception {
+    	logger.info("----1");
+    	logger.info("----msg=" + msg);
         // 传统的HTTP接入
         if (msg instanceof FullHttpRequest) {
             handleHttpRequest(ctx, (FullHttpRequest) msg);
@@ -42,6 +48,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    	logger.info("----2");
         ctx.flush();
     }
 
@@ -52,7 +59,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
      * @throws Exception
      */
     private void handleHttpRequest(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
-        // 如果HTTP解码失败，返回HHTP异常
+    	logger.info("----3");
+    	// 如果HTTP解码失败，返回HHTP异常
     	if (!req.getDecoderResult().isSuccess() || (!"websocket".equals(req.headers().get("Upgrade")))) {
             sendHttpResponse(ctx, req, new DefaultFullHttpResponse(HTTP_1_1, BAD_REQUEST));
             return;
@@ -75,6 +83,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
      * @param frame
      */
     private void handleWebSocketFrame(ChannelHandlerContext ctx, WebSocketFrame frame) {
+    	logger.info("----4");
+    	logger.info("----frame=" + frame);
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
@@ -93,13 +103,20 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
         // 返回应答消息
         String request = ((TextWebSocketFrame) frame).text();
+        /*
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(String.format("%s received %s", ctx.channel(), request));
         }
+        */
+        logger.fine(String.format("%s received %s", ctx.channel(), request));
         ctx.channel().write(
-                new TextWebSocketFrame(request
+                new TextWebSocketFrame(
+                		request
                         + " , 欢迎使用Netty WebSocket服务，现在时刻："
-                        + new java.util.Date().toString()));
+                        + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+                )
+        );
+                        //+ new java.util.Date().toString()));
     }
 
     /**
@@ -109,6 +126,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
      * @param res
      */
     private static void sendHttpResponse(ChannelHandlerContext ctx, FullHttpRequest req, FullHttpResponse res) {
+    	logger.info("----5");
     	logger.info("::res.getStatus().code() = " + res.getStatus().code());
         // 返回应答给客户端
         if (res.getStatus().code() != 200) {
@@ -129,7 +147,8 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
+    	logger.info("----6");
+    	cause.printStackTrace();
         ctx.close();
     }
 }
