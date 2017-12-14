@@ -109,14 +109,20 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
         }
         */
         logger.fine(String.format("%s received %s", ctx.channel(), request));
+        // 返回消息一
         ctx.channel().write(
                 new TextWebSocketFrame(
-                		request
+                		"消息1："
+                		+ request
                         + " , 欢迎使用Netty WebSocket服务，现在时刻："
                         + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
                 )
         );
-                        //+ new java.util.Date().toString()));
+        
+        // 返回消息二
+        ctx.channel().write(
+            new TextWebSocketFrame("消息2：你好啊，")
+        );
     }
 
     /**
