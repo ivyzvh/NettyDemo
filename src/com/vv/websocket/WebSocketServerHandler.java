@@ -87,6 +87,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
     	logger.info("----frame=" + frame);
         // 判断是否是关闭链路的指令
         if (frame instanceof CloseWebSocketFrame) {
+        	logger.info("握手关闭");
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
             return;
         }
