@@ -45,7 +45,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
             System.out.println("客户端发送的消息::" + buf.toString(io.netty.util.CharsetUtil.UTF_8));
             buf.release();
 
-            // 响应信息
+            // 响应信息[应答消息]
             // String res = "I am OK";
             String res = "<html><head><title>Netty Http Demo</title></head><body>This is a Netty HTTP Demo.<a href=\"#\">中国</a></body></html>";
             

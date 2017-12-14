@@ -16,13 +16,13 @@ public class HttpClientInboundHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof HttpResponse) {
             HttpResponse response = (HttpResponse) msg;
-            System.out.println("[服务器返回][CONTENT_TYPE]::" + response.headers().get(HttpHeaders.Names.CONTENT_TYPE));
+            System.out.println("[服务器应答消息][CONTENT_TYPE]::" + response.headers().get(HttpHeaders.Names.CONTENT_TYPE));
         }
         
         if(msg instanceof HttpContent) {
             HttpContent content = (HttpContent) msg;
             ByteBuf buf = content.content();
-            System.out.println("[服务器返回][消息内容]::" + buf.toString(io.netty.util.CharsetUtil.UTF_8));
+            System.out.println("[服务器应答消息][消息内容]::" + buf.toString(io.netty.util.CharsetUtil.UTF_8));
             buf.release();
         }
     }
