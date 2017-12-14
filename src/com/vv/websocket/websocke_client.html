@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Netty WebSocket Time Server</title>
+</head>
+<body>
+<form onsubmit="return false;">
+    Message:<input type="text" name="message" value="Netty Book" size="55"/>
+    <br><br>
+    <input type="button" value="Send" onclick="send(this.form.message.value)"/>
+    <hr color="blue"/>
+    <h3>Response Message From WebSocket Server</h3>
+    <textarea id="responseText" style="width:500px;height:300px;"></textarea>
+</form>
+</body>
+</html>
+<script type="text/javascript">
+    var socket;
+    if (!window.WebSocket) {
+        window.WebSocket = window.MozWebSocket;
+    }
+    if (window.WebSocket) {
+        socket = new WebSocket("ws://localhost:7878/websocket");
+        socket.onmessage = function (event) {
+            var ta = document.getElementById('responseText');
+			var val = ta.value + "\n" + event.data;
+            ta.value = "";
+            ta.value = val; //event.data;
+        };
+        socket.onopen = function (event) {
+            var ta = document.getElementById('responseText');
+            //ta.value = "打开WebSocket服务正常，浏览器支持WebSocket!";
+			ta.value = "Open WebSocket service successfully, the browser support WebSocket!";
+        };
+        socket.onclose = function (event) {
+            var ta = document.getElementById('responseText');
+            //ta.value = "WebSocket 关闭!";
+			ta.value += "\n" + "WebSocket Closed!";
+        };
+    } else {
+        //alert("抱歉，您的浏览器不支持WebSocket协议!");
+		alert("Sorry, the browser doesn't support WebSocket.");
+    }
+
+    function send(message) {
+        if (!window.WebSocket) {
+            return;
+        }
+        if (socket.readyState == WebSocket.OPEN) {
+            socket.send(message);
+        } else {
+            //alert("WebSocket连接没有建立成功!");
+			alert("WebSocket connection failed.");
+        }
+    }
+</script>
