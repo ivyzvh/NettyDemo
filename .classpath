@@ -13,6 +13,6 @@
 	<classpathentry kind="lib" path="lib/netty-all-4.0.53.Final-sources.jar"/>
 	<classpathentry kind="lib" path="lib2/jboss-marshalling-1.4.10.Final.jar"/>
 	<classpathentry kind="lib" path="lib2/jboss-marshalling-serial-1.4.10.Final.jar"/>
-	<classpathentry kind="lib" path="lib/netty-all-4.0.53.Final.jar"/>
+	<classpathentry kind="lib" path="lib/netty-all-4.0.53.Final.jar" sourcepath="lib/netty-all-4.0.53.Final-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

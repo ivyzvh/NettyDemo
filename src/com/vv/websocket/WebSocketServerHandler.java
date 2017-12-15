@@ -120,12 +120,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<Object> 
                 )
         );
         
-        try {
-			//Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-        
         // 返回消息二
         ctx.channel().write(
             new TextWebSocketFrame("消息2：你好啊，")
