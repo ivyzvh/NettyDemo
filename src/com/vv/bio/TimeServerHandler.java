@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeServerHandler implements Runnable {
@@ -26,11 +27,18 @@ public class TimeServerHandler implements Runnable {
 			String body = null;
 			while (true) {
 				body = in.readLine();
+				System.out.println("[Server] received message: " + body);
 				if (body == null)
 					break;
-				System.out.println("The time server receive order:" + body);
-				currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? new Date(System.currentTimeMillis()).toString() : "BAD ORDER";
-				out.print(currentTime);
+				/*currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) 
+						    ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+				              .format(new Date(System.currentTimeMillis()))
+						      .toString() 
+							: "BAD ORDER";*/
+				currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+	                          .format(new Date(System.currentTimeMillis()))
+			                  .toString();
+				out.println(currentTime);
 			}
 		} catch (Exception e) {
 			if (in != null) {

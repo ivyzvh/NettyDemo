@@ -11,19 +11,22 @@ public class TimeServer {
 		ServerSocket server = null;
 		try {
 			server = new ServerSocket(7878);
-			System.out.println("The time server is start in port:" + port);
+			System.out.println("[Server] The time server is start in port: " + port);
 
 			Socket socket = null;
 			while (true) {
+				System.out.println("[Server] Before Accept");
 				socket = server.accept();
+				System.out.println("[Server] Behind Accept");
 				new Thread(new TimeServerHandler(socket)).start();
 			}
 		} finally {
 			if (server != null) {
-				System.out.println("The time server close");
+				System.out.println("[Server] The time server close.");
 				server.close();
 				server = null;
 			}
 		}
 	}
 }
+ 
