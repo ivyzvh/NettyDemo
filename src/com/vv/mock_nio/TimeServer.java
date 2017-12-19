@@ -1,4 +1,4 @@
-package com.vv.bio;
+package com.vv.mock_nio;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -6,7 +6,7 @@ import java.net.Socket;
 
 
 /**
- * Í¬²½×èÈûI/O, BIO
+ * Î±Òì²½
  */
 public class TimeServer {
 
@@ -16,13 +16,13 @@ public class TimeServer {
 		try {
 			server = new ServerSocket(7878);
 			System.out.println("[Server] The time server is start in port: " + port);
-
 			Socket socket = null;
+			TimeServerHandlerExecutePool singleExecutor = new TimeServerHandlerExecutePool(50, 10000);
 			while (true) {
 				System.out.println("[Server] Before Accept");
 				socket = server.accept();
 				System.out.println("[Server] Behind Accept");
-				new Thread(new TimeServerHandler(socket)).start();
+				singleExecutor.execute(new TimeServerHandler(socket));
 			}
 		} finally {
 			if (server != null) {
