@@ -6,9 +6,7 @@ import java.nio.channels.AsynchronousServerSocketChannel;
 import java.util.concurrent.CountDownLatch;
 
 public class AsyncTimeServerHandler implements Runnable {
-
 	private int port;
-
 	CountDownLatch latch;
 	AsynchronousServerSocketChannel asynchronousServerSocketChannel;
 
@@ -25,12 +23,10 @@ public class AsyncTimeServerHandler implements Runnable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
 	public void run() {
-
 		latch = new CountDownLatch(1);
 		doAccept();
 		try {
