@@ -1,10 +1,13 @@
-package org.example.hello;
+package com.vv.helloworld;
 
 import java.net.InetAddress;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+/**
+ * Netty 4
+ */
 public class HelloServerHandler extends SimpleChannelInboundHandler<String> {
     
     @Override

@@ -1,8 +1,11 @@
-package org.example.hello;
+package com.vv.helloworld;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+/**
+ * Netty 4
+ */
 public class HelloClientHandler extends SimpleChannelInboundHandler<String> {
 
 	/**
